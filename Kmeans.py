@@ -3,7 +3,7 @@ from base64 import b64decode
 from json import loads
 import numpy as np
 import matplotlib.pyplot as plt
-
+from sklearn.model_selection import train_test_split
 
 def parse(x):
     """
@@ -24,10 +24,10 @@ with open("digits.base64.json", "r") as f:
         digits.append(parse(line))
 
 digits = np.array(digits)
-# pick a ratio for splitting the digits list into a training and a validation set.
-ratio = len(digits) * 0.25
-validation = np.array(digits)[:ratio]
-training = digits[ratio:]
+y = np.array([x[0] for x in digits])
+X = np.array([x[1] for x in digits])
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state=500)
 
 
 def display_digit(digit, labeled=True, title=""):
@@ -44,6 +44,7 @@ def display_digit(digit, labeled=True, title=""):
     fig.axes.get_yaxis().set_visible(False)
     if title != "":
         plt.title("Inferred label: " + str(title))
+    plt.show()
 
 
 # writing Lloyd's Algorithm for K-Means clustering.
