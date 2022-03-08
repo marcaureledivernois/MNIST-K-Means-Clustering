@@ -54,7 +54,7 @@ def init_centroids(labelled_data, k):
     randomly pick some k centers from the data as starting values for centroids.
     Remove labels.
     """
-    return map(lambda x: x[1], random.sample(labelled_data, k))
+    return random.sample(list(labelled_data[:,:-1]), k)
 
 
 def sum_cluster(labelled_cluster):
@@ -93,7 +93,9 @@ def form_clusters(labelled_data, unlabelled_centroids):
     # That list is the cluster of that centroid.
     clusters = {c: [] for c in centroids_indices}
 
-    for (label, Xi) in labelled_data:
+    for e in labelled_data:
+        label = e[-1]
+        Xi = e[:-1]
         # for each datapoint, pick the closest centroid.
         smallest_distance = float("inf")
         for cj_index in centroids_indices:
@@ -195,8 +197,10 @@ def get_error_rate(digits, labelled_centroids):
     error_rate = classified_incorrect / float(len(digits))
     return error_rate
 
+training = np.concatenate((X_train,y_train.reshape(-1,1)),axis=1)
+validation = np.concatenate((X_test,y_test.reshape(-1,1)),axis=1)
 
-error_rates = {x: None for x in range(5, 25) + [100]}
+error_rates = {x: None for x in list(range(5, 25))}
 for k in range(5, 25):
     trained_clusters, trained_centroids = cluster(training, k)
     labelled_centroids = assign_labels_to_centroids(trained_clusters, trained_centroids)
