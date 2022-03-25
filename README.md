@@ -1,4 +1,7 @@
 # MNIST-K-Means-Clustering
+
+Disclaimer : This repo is forked from https://github.com/Datamine. I mainly corrected/updated some portions of the code.
+
 Using K-Means Clustering to Identify Handwritten Digits
 
 Uncompress the .tar.gz archive to get the `digits.base64.json` dataset, which you'll need. (`tar -xzvf digits.base64.json.tar.gz`)
